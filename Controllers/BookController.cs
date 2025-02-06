@@ -89,5 +89,22 @@ namespace api.Controllers
 
       return NoContent();
     }    
+    [HttpGet("available")]
+    public async Task<IActionResult> GetAvailableBooks()
+    {
+      var allBooks = await _context.Book.ToListAsync();
+      var borrowedBookIds = await _context.User
+          .SelectMany(u => u.BorrowedBooks.Select(b => b.BookId))
+          .Distinct()
+          .ToListAsync();
+
+      var availableBooks = allBooks
+          .Where(b => !borrowedBookIds.Contains(b.BookId))
+          .ToList();
+
+      var availableBookDtos = availableBooks.Select(b => b.ToBookDto());
+
+      return Ok(availableBookDtos);
+    }
   }
 }

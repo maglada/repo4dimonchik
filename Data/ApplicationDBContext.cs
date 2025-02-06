@@ -20,13 +20,11 @@ namespace api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // User-Book many-to-many relationship
         modelBuilder.Entity<User>()
             .HasMany(u => u.BorrowedBooks)
             .WithMany()
             .UsingEntity(j => j.ToTable("UserBooks"));
             
-        // Author-Book one-to-many relationship
         modelBuilder.Entity<Book>()
             .HasOne(b => b.Author)
             .WithMany(a => a.Books)
