@@ -43,36 +43,41 @@ namespace api.Controllers
     }
 
     [HttpPost("{userId}/borrow/{bookId}")]
-    public IActionResult BorrowBook(int userId, int bookId)
+    public async Task<IActionResult> BorrowBook(int userId, int bookId)
     {
-        var user = _context.User
+        var user = await _context.User
             .Include(u => u.BorrowedBooks)
-            .FirstOrDefault(u => u.UserId == userId);
-        
+            .FirstOrDefaultAsync(u => u.UserId == userId);
+    
         if (user == null)
             return NotFound("User not found");
 
-        var book = _context.Book.Find(bookId);
+        var book = await _context.Book.FindAsync(bookId);
         if (book == null)
             return NotFound("Book not found");
 
-        // Check if user already borrowed this book
+        var isBookBorrowed = await _context.User
+            .AnyAsync(u => u.BorrowedBooks.Any(b => b.BookId == bookId));
+
+        if (isBookBorrowed)
+            return BadRequest("Book is already borrowed");
+
         if (!user.BorrowedBooks.Any(b => b.BookId == bookId))
         {
             user.BorrowedBooks.Add(book);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         return Ok(user.ToUserDto());
-        }
+    }
 
     [HttpPost("{userId}/return/{bookId}")]
-    public IActionResult ReturnBook(int userId, int bookId)
+    public async Task<IActionResult> ReturnBook(int userId, int bookId)
     {
-        var user = _context.User
+        var user = await _context.User
             .Include(u => u.BorrowedBooks)
-            .FirstOrDefault(u => u.UserId == userId);
-        
+            .FirstOrDefaultAsync(u => u.UserId == userId);
+    
         if (user == null)
             return NotFound("User not found");
 
@@ -81,7 +86,7 @@ namespace api.Controllers
             return NotFound("Book not found in user's borrowed books");
 
         user.BorrowedBooks.Remove(book);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return Ok(user.ToUserDto());
     }

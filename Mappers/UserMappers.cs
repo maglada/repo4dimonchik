@@ -17,7 +17,7 @@ namespace api.Mappers
             UserId = userModel.UserId,
             Name = userModel.Name,
             Email = userModel.Email,
-            BorrowedBooks = userModel.BorrowedBooks
+            BorrowedBooks = userModel.BorrowedBooks?.Select(b => b.BookId).ToList()
         };
     }
   }

@@ -10,6 +10,6 @@ namespace api.Dtos.User
     public int UserId { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
-    public ICollection<api.Models.Book> BorrowedBooks { get; set; }
+    public ICollection<int> BorrowedBooks { get; set; }
   }
 }

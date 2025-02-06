@@ -169,7 +169,6 @@ C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\ne
 C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\api.csproj.CoreCompileInputs.cache
 C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\api.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\api.sourcelink.json
 C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\scopedcss\bundle\api.styles.css
 C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\maglada\Documents\gitproj\-\myproj\csharp\project_test\api\obj\Debug\net9.0\staticwebassets.development.json
