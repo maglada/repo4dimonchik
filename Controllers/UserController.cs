@@ -6,6 +6,7 @@ using api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Mappers;
+using api.Models;
 
 namespace api.Controllers
 {
@@ -89,6 +90,20 @@ namespace api.Controllers
         await _context.SaveChangesAsync();
 
         return Ok(user.ToUserDto());
+    }
+    [HttpPost]
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequestDto userDto)
+    {
+        var userModel = new User
+        {
+            Name = userDto.Name,
+            Email = userDto.Email
+        };
+
+        await _context.User.AddAsync(userModel);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetById), new { id = userModel.UserId }, userModel.ToUserDto());
     }
 
   }
