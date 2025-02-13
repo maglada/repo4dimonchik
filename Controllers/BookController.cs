@@ -106,5 +106,36 @@ namespace api.Controllers
 
       return Ok(availableBookDtos);
     }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchBooks(
+        [FromQuery] string? title = null,
+        [FromQuery] string? genre = null,
+        [FromQuery] string? authorName = null)
+    {
+        var query = _context.Book
+            .Include(b => b.Author)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(title))
+        {
+            query = query.Where(b => b.Name.Contains(title));
+        }
+
+        if (!string.IsNullOrWhiteSpace(genre))
+        {
+            query = query.Where(b => b.Genre.Contains(genre));
+        }
+
+        if (!string.IsNullOrWhiteSpace(authorName))
+        {
+            query = query.Where(b => b.Author.Name.Contains(authorName));
+        }
+
+        var books = await query.ToListAsync();
+        var bookDtos = books.Select(b => b.ToBookDto());
+
+        return Ok(bookDtos);
+    }
   }
 }
